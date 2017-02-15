@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-echo "###"
-echo "Step 1. Set a password for the amnesia user"
-echo "###"
-ret=1
-while [[ $ret -ne 0 ]]; do
-	passwd
-	ret=$?
-done
-dconf write "/org/gnome/desktop/lockdown/disable-lock-screen" "false"
-echo "###"
-echo "Step 2. Lock screen with Meta + L, from the power menu or enable autolock from"
-echo "the Privacy menu under Settings."
-echo "###"
+echo -en "[ ] Setting password...\n"
+passwd
+if [[ $? -ne 0 ]]; then
+	echo -en "[-] Failed.\n"
+	exit 1
+fi
+echo -en "[+] Password set.\n"
+echo -en "[ ] Enabling screenlock...\n"
+dconf write /org/gnome/desktop/screensaver/lock-enabled true
+if [[ $? -ne 0 ]]; then
+	echo -en "[-] Failed.\n"
+	exit 1
+fi
+echo -en "[+] Screenlock enabled:\n\t- Automatically on screen blank (5 min inactivity).\n\t- Manually by pressing the Meta+L key combination.\n"
