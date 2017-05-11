@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 #    Copyright (C) 2016 cacahuatl < cacahuatl at autistici dot org >
 #
@@ -15,7 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 from Crypto.PublicKey import RSA
 from Crypto.PublicKey.pubkey import getStrongPrime
 from Crypto.Util import asn1
@@ -97,7 +96,7 @@ class Generator():
         der.append(pub.e)
         b = der.encode()
         h = SHA.new(b).digest()[0:10]
-        return b32encode(h).lower()
+        return b32encode(h).lower().decode('utf-8')
 
     def gen_key(self,p,q,e):
         if p > q:
@@ -117,7 +116,7 @@ class Generator():
             for e in range(3,65538,2):
                 if not self.die.is_set():
                     return
-                k = self.gen_key(p,q,long(e))
+                k = self.gen_key(p, q, e)
                 o = self.onion(k.publickey())
                 if self.searcher.match(o) is True:
                     pk = k.exportKey('PEM')
