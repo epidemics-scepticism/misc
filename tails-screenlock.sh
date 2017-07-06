@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-echo -en "[ ] Setting password...\n"
+echo -en "[*] Setting password...\n"
 passwd
 if [[ $? -ne 0 ]]; then
 	echo -en "[-] Failed.\n"
 	exit 1
 fi
 echo -en "[+] Password set.\n"
-echo -en "[ ] Enabling screenlock...\n"
+echo -en "[*] Enabling screenlock...\n"
 dconf write /org/gnome/desktop/screensaver/lock-enabled true
 if [[ $? -ne 0 ]]; then
 	echo -en "[-] Failed.\n"
